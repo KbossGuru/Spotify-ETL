@@ -1,7 +1,7 @@
 # Spotify-ETL
 A project to automate and build a pipeline from spotify to Amazon S3 using Apache Airflow to ensure real-time reporting
 
-**Project Overview**
+# Project Overview
 **Objective:**
 To build a data pipeline that automatically fetches Spotify playlist data, processes it, and uploads it to Amazon S3 on a daily basis. This data can then be used for further analysis or visualization, such as creating dashboards in Power BI.
 
