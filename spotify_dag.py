@@ -3,8 +3,7 @@ from datetime import timedelta
 from airflow.utils.dates import days_ago
 from airflow.operators.bash import BashOperator
 from airflow.operators.python import PythonOperator
-from spotify_etl import extract_and_store_data
-import spotipy
+from spotify_etl import extract_and_store_data, transform_data, load_data_to_s3
 
 #define the default argument
 default_args = {
@@ -23,12 +22,26 @@ dag = DAG(
     start_date= days_ago(0),
     schedule_interval= timedelta(days=1)
 )
-#define the extract transform task
-extract_transform_task = PythonOperator(
-    task_id = 'extract_and_save_data',
+#define the extract task
+extract_task = PythonOperator(
+    task_id = 'extract_and_store_data',
     python_callable= extract_and_store_data,
     dag = dag
 )
 
+#define the transform task
+transform_task = PythonOperator(
+    task_id = 'transform_data',
+    python_callable= transform_data,
+    dag = dag
+)
+
+#define the load the data into an s3 bucket task
+load_to_s3_task = PythonOperator(
+    task_id = 'load_into_s3_bucket',
+    python_callable= load_data_to_s3,
+    dag = dag
+)
+
 #set task dependencies
-extract_transform_task
+extract_task >> transform_task >> load_to_s3_task
