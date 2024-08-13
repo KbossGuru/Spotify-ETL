@@ -1,3 +1,0 @@
-#spotify API credentials
-CLIENT_ID = '94bb8fcecdef444ba4104d0167cf00fe'
-CLIENT_SECRET = '0358eda5d6934213961b4d00672339ee'
